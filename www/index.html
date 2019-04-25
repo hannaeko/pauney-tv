@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>PauneyTV</title>
+
+    <link rel="icon" href="img/icon.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.8/mediaelementplayer.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement-plugins/2.5.0/quality/quality.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.8/mediaelement-and-player.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement-plugins/2.5.0/quality/quality.min.js"></script>
+
+    <style>
+      body {
+        display: flex;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        background-color: #181818;
+        overflow-y: hidden;
+      }
+      
+      .media-wrapper {
+        width: 100%;
+        position: relative;
+      }
+      
+      .kiwi {
+        width: 450px;
+        /*height: 100vh;*/
+      }
+      
+      .kiwi iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      
+      .left-container {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        max-height: 100%;
+      }
+      
+      h1 {
+        color: darkgoldenrod;
+        text-align: center;
+      }
+      
+      #state {
+        color: white;
+        position: absolute;
+        top: 1em;
+        left: 1em;
+        font-weight: bold;
+        z-index: 1;
+      }
+
+      #state::before {
+        content: '';
+        display: inline-block;
+        width: 0.75em;
+        height: 0.75em;
+        border-radius: 0.75em;
+        margin-right: 0.5em;
+      }
+
+      #state.off::before {
+        background-color: gray;
+      }
+      
+      #state.live::before {
+        background-color: red;
+      }
+
+      #player {
+        max-width: 100%;
+      }
+
+      @media screen and (orientation:portrait) {
+        body {
+          flex-wrap: wrap;
+          flex-direction: column;
+        }
+
+        .kiwi {
+          width: 100%;
+          flex-grow: 1;
+        }
+
+        .left-container {
+          flex-grow: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="left-container">
+      <h1>
+        PauneyTV
+      </h1>
+      <div class="media-wrapper">
+	<div id="state"></div>
+        <video id="player" style="max-width: 100%;" poster="img/poster.jpg" preload="none" controls playsinline webkit-playsinline autoplay>
+          <source src="/hls/source/test/index.m3u8" type="application/x-mpegURL" data-quality="Source">
+          <source src="/hls/medium/test/index.m3u8" type="application/x-mpegURL" data-quality="720p">
+          <source src="/hls/small/test/index.m3u8" type="application/x-mpegURL" data-quality="360p">
+        </video>
+      </div>
+    </div>
+    <div class="kiwi">
+      <iframe src="https://kiwiirc.com/client/chat.freenode.net/?nick=pauney_?&theme=cli#pauney-tv"></iframe>
+    </div>
+    <script>
+      var stateElement = document.getElementById('state');
+
+      var player = new MediaElementPlayer('player', {
+	features: ['playpause', 'current', 'progress', 'duration', 'volume', 'quality', 'fullscreen'],
+        forceLive: true,
+	customError: ' ',
+        error: function (media, node) {
+          stateElement.innerText = 'Offline';
+          stateElement.classList.remove('live');
+          stateElement.classList.add('off');
+        },
+        success: function (media, node) {
+          stateElement.innerText = 'Live';
+          stateElement.classList.remove('off');
+          stateElement.classList.add('live');
+        }
+      });
+    </script>
+  </body>
+</html>
+
