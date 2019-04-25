@@ -17,6 +17,8 @@ RUN	cd /tmp/src && \
     tar -zxvf ${NGINX_VERSION}.tar.gz && \
     cd /tmp/src/${NGINX_VERSION} && \
     ./configure \
+		--user=nginx \
+		--group=nginx \
 		--with-threads \
 		--with-poll_module \
 		--with-pcre-jit \
@@ -37,9 +39,11 @@ RUN	cd /tmp/src && \
     apk del build-base wget unzip && \
     rm -rf /tmp/src && \
 	rm -rf /var/cache/apk/*
-RUN mkdir -p /data/hls/{source,small,medium} /data/vod
+RUN mkdir -p /data/hls /data/vod && \
+	adduser -H -s /sbin/nologin -D nginx nignx && \
+	chown -R nginx:nginx /data
 
-VOLUME ["/var/log/nginx", "/data/vod"]
+VOLUME ["/var/log/nginx", "/data/vod", "/data/hls"]
 
 WORKDIR /etc/nginx
 
