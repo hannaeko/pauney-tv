@@ -104,7 +104,7 @@
         PauneyTV
       </h1>
       <div class="media-wrapper">
-	<div id="state"></div>
+        <div id="state"></div>
         <video id="player" style="max-width: 100%;" poster="img/poster.jpg" preload="none" controls playsinline webkit-playsinline autoplay>
           <source src="/hls/test.m3u8" type="application/x-mpegURL" data-quality="Auto">
           <source src="/hls/test_src/index.m3u8" type="application/x-mpegURL" data-quality="Source">
@@ -120,9 +120,9 @@
       var stateElement = document.getElementById('state');
 
       var player = new MediaElementPlayer('player', {
-	features: ['playpause', 'current', 'progress', 'duration', 'volume', 'quality', 'fullscreen'],
+        features: ['playpause', 'current', 'progress', 'duration', 'volume', 'quality', 'fullscreen'],
         forceLive: true,
-	customError: ' ',
+        customError: ' ',
         error: function (media, node) {
           stateElement.innerText = 'Offline';
           stateElement.classList.remove('live');
