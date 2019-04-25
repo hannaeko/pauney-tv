@@ -2,7 +2,8 @@
 
 Features :
  * vod recording on the server
- * multi-resolution support (currently : Source, 720p, 360p)
+ * multi-resolution support (currently : source, 720p, 360p)
+ * adaptative streaming to the client
  * webchat via IRC
 
 The docker file is based on the work of https://github.com/LoicMahieu/alpine-nginx/ .
